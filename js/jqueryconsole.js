@@ -96,7 +96,7 @@
     var altCodes = {
       // M-f
       70: moveToNextWord,
-      // M-b
+      // M-bSS
       66: moveToPreviousWord,
       // M-d
       68: deleteNextWord

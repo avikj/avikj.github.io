@@ -53,10 +53,55 @@
                                             className:"jquery-console-message-value"}];
                             case "skills.txt":
                                 return [{msg:
-                                            "Could not find file '"+arr[1]+"'.", 
+                                            ".............................Beginner ================= Expert\n"
+                                           +"Java Programming_____________[============================---]\n"
+                                           +"Android Development__________[======================---------]\n"
+                                           +"Web App Development__________[==================-------------]\n"
+                                           +"Algorithmic Problem Solving__[==============================-]\n", 
+                                            className:"jquery-console-message-value"}];
+                            case "achievements.txt":
+                                return [{msg:
+                                            "DECA {\n\t\tCalifornia CDC: 2nd place in Entrepreneurship in Spring 2015, represented California at International CDC\n}\n\n"
+                                           +"Hackathons {\n\t\tCU Hacks: Won second place in educational hacks (view projects.txt for more info)\n}\n\n"
+                                           +"Mathematics {\n\t\tAMC 8: 24\n"
+                                                            +"\t\tAMC 10: 126.5\n"
+                                                            +"\t\tAmerican Invitational Mathematics Exam: 8, while being among the youngest qualifiers (7th grade)\n}\n\n", 
+                                            className:"jquery-console-message-value"}];
+                            case "projects.txt":
+                                return [{msg:
+                                            "Flappy Nerd{\n"
+                                            +"\t\tDescription: Flappy Nerd is a desktop FlappyBird clone\n"
+                                            +"  \t\t\tQuizlet sets by ID or by keywords, and can then choose a \n"
+                                            +"  \t\t\tset to start the game. The gameplay is similar to that of \n"
+                                            +"  \t\t\tFlappy Bird. Under each pipe column, there is a study\n"
+                                            +"  \t\t\tterm. Unlike traditional Flappy Bird, each pipe column has \n"
+                                            +"  \t\t\ttwo gaps, one with the correct definition, and one with a \n"
+                                            +"  \t\t\trandomly chosen incorrect definition. The user must maneuver\n"
+                                            +"  \t\t\tthe bird through the correct gap to earn points. Using Flappy \n"
+                                            +"  \t\t\tNerd is an immersive alternative to studying off of flashcards, \n"
+                                            +"  \t\t\tand has proven to be more fun and effective, especially for \n"
+                                            +"  \t\t\tvocabulary sets. This project won second place in the \n"
+                                            +"  \t\t\teducational hack category at CU Hacks.\n\n"
+                                            +"\t\tGithub Repo: https://github.com/avikj/Flappy-Nerd\n\n"
+                                            +"\t\tCollaborators: Gagan Kaushik, Nihal George.\n}", 
+
                                             className:"jquery-console-message-value"}];
                         }
                         return [{msg:"Could not find file '"+arr[1]+"'.", className:"jquery-console-message-value"}]
+                        break;
+                    case "go":
+                        switch(arr[1]){
+                            case "github":
+                                var win = window.open('https://github.com/avikj', '_blank');
+                                if(win){
+                                    //Browser has allowed it to be opened
+                                    win.focus();
+                                }else{
+                                    //Broswer has blocked it
+                                    alert('Please allow popups for this site');
+}
+                                break;
+                        }
                         break;
                     default:
                         return [{msg:"'"+arr[0]+"'is not a recognized command.", className:"jquery-console-message-value"}]
@@ -96,8 +141,8 @@
        { color:#ef0505; font-family:sans-serif; font-weight:bold;
          padding:0.1em; }
       div.console1 div.jquery-console-message-value
-       { color:#1ad027; font-family:monospace;
-         padding:0.1em; }
+       { color:#4f4; font-family:monospace;
+         padding:0.1em; padding-left: 1vh}
       div.console1 div.jquery-console-message-type
        { color:#52666f; font-family:monospace;
          padding:0.1em; }
