@@ -26,9 +26,14 @@
            commandHandle:function(line){
                 var arr = line.split(" ");
                 switch(arr[0]){
+                    case "gui":
+                        window.location.href="visual.html";
+                        return;
                     case "help":
-                        return [{msg:"ls\treturns a list of files\n"
+                        return [{msg:+"help\tdisplays this message\n"
+                                    +"ls\tdisplays a list of files\n"
                                     +"cat\tdisplays the contents of a file\n"
+                                    +"gui\tdisplays content in a normal website style\n"
                                     , 
                         className:"jquery-console-message-value"}]
                         break;
@@ -76,7 +81,7 @@
                             case "projects.txt":
                                 return [{msg:
                                             "Flappy Nerd{\n"
-                                            +"\t\tDescription: Flappy Nerd is a desktop FlappyBird clone\n"
+                                            +"\t\tDescription: Flappy Nerd is a desktop FlappyBird clone where users can search \n"
                                             +"  \t\t\tQuizlet sets by ID or by keywords, and can then choose a \n"
                                             +"  \t\t\tset to start the game. The gameplay is similar to that of \n"
                                             +"  \t\t\tFlappy Bird. Under each pipe column, there is a study\n"
