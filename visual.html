@@ -23,6 +23,29 @@
     <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+    <style>
+.typed-cursor{
+    opacity: 1;
+    -webkit-animation: blink 0.7s infinite;
+    -moz-animation: blink 0.7s infinite;
+    animation: blink 0.7s infinite;
+}
+@keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+@-webkit-keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+@-moz-keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+    </style>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -79,7 +102,7 @@
         <div class="container">
             <div class="intro-text">
                 <div class="intro-lead-in">Avik Jain</div>
-                <div class="intro-heading">Developer</div>
+                <div class="intro-heading"><span class="type-this">Developer</span></div>
                 <a href="#services" class="page-scroll btn btn-xl">Tell Me More</a>
             </div>
         </div>
@@ -459,7 +482,16 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="js/agency.js"></script>
-
+    <script src="js/typed.js"></script>
+    <script>
+        $(function(){
+            $(".type-this").typed({
+                strings: ["Developer.", "Problem Solver.", "Hacker.", "Programmer.", "Creator.", "Coder."],
+                typeSpeed: 0.5,
+                loop:true
+            });
+        });
+    </script>
 </body>
 
 </html>
