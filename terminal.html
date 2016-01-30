@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<!--
+    Well somebody's curious...
+    Find my projects at
+     https://github.com/avikj
+    
+-->
+<html>
+  <head>
+    <title>Avik Jain</title>
+    <meta name="Content-Type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="js/jqueryconsole.js"></script>
+    <!-- Everything beyond this point is user-customized -->
+    <script type="text/javascript">
+      $(document).ready(function(){
+        window.location.href="visual.html";
+         /* First console */
+         var console1 = $('<div class="console1">');
+         $('body').append(console1);
+         var controller1 = console1.console({
+           promptLabel: 'avikjain:~/ guest$ ',
+           commandValidate:function(line){
+             if (line == "") return false;
+             else return true;
+           },
+           commandHandle:function(line){
+                var arr = line.split(" ");
+                switch(arr[0]){
+                    case "gui":
+                        window.location.href="http://avikjain.me/visual.html";
+                        return;
+                    case "help":
+                        return [{msg:"help\tdisplays this message\n"
+                                    +"ls\tdisplays a list of files\n"
+                                    +"cat\tdisplays the contents of a file\n"
+                                    +"gui\tdisplays content in a normal website style\n"
+                                    , 
+                        className:"jquery-console-message-value"}]
+                        break;
+                    case "ls":
+                        return [{msg:"main.txt\n"
+                                    +"education.txt\n"
+                                    +"skills.txt\n"
+                                    +"projects.txt\n", 
+                                    className:"jquery-console-message-value"}]
+                        break;
+                    case "cat":
+                        switch(arr[1]){
+                            case "main.txt":
+                                return [{msg:
+                                            "Name: Avik Jain\n"
+                                            +"Age: 14 years, 11 months, 15 days\n"
+                                            +"Occupation: Student at Monta Vista High School\n"
+                                            +"Passion: Programming\n", 
+                                            className:"jquery-console-message-value"}];
+                            case "education.txt":
+                                return [{msg:
+                                            "Academic Institution: Monta Vista High School\n"
+                                            +"Grade: Sophomore\n"
+                                            +"GPA: 4.0 unweighted\n"
+                                            +"Current Courses: {AP Computer Science, AP Calculus BC, AP Chemistry, World History, World Literature, Spanish 2}\n"
+                                            +"Completed Courses: {Intro to Java, Precalculus Honors, Principles of Business, Biology, Spanish 1, Literature}\n", 
+
+                                            className:"jquery-console-message-value"}];
+                            case "skills.txt":
+                                return [{msg:
+                                            ".............................Beginner ================= Expert\n"
+                                           +"Java Programming_____________[============================---]\n"
+                                           +"Android Development__________[======================---------]\n"
+                                           +"Web App Development__________[==================-------------]\n"
+                                           +"Algorithmic Problem Solving__[==============================-]\n", 
+                                            className:"jquery-console-message-value"}];
+                            case "achievements.txt":
+                                return [{msg:
+                                            "DECA {\n\t\tCalifornia CDC: 2nd place in Entrepreneurship in Spring 2015, represented California at International CDC\n}\n\n"
+                                           +"Hackathons {\n\t\tCU Hacks: Won second place in educational hacks (view projects.txt for more info)\n}\n\n"
+                                           +"Mathematics {\n\t\tAMC 8: 24\n"
+                                                            +"\t\tAMC 10: 126.5\n"
+                                                            +"\t\tAmerican Invitational Mathematics Exam: 8, while being among the youngest qualifiers (7th grade)\n}\n\n", 
+                                            className:"jquery-console-message-value"}];
+                            case "projects.txt":
+                                return [{msg:
+                                            "Flappy Nerd{\n"
+                                            +"\t\tDescription: Flappy Nerd is a desktop FlappyBird clone where users can search \n"
+                                            +"  \t\t\tQuizlet sets by ID or by keywords, and can then choose a \n"
+                                            +"  \t\t\tset to start the game. The gameplay is similar to that of \n"
+                                            +"  \t\t\tFlappy Bird. Under each pipe column, there is a study\n"
+                                            +"  \t\t\tterm. Unlike traditional Flappy Bird, each pipe column has \n"
+                                            +"  \t\t\ttwo gaps, one with the correct definition, and one with a \n"
+                                            +"  \t\t\trandomly chosen incorrect definition. The user must maneuver\n"
+                                            +"  \t\t\tthe bird through the correct gap to earn points. Using Flappy \n"
+                                            +"  \t\t\tNerd is an immersive alternative to studying off of flashcards, \n"
+                                            +"  \t\t\tand has proven to be more fun and effective, especially for \n"
+                                            +"  \t\t\tvocabulary sets. This began as a school project, but was \n"
+                                            +"  \t\t\trebuilt completely at CU Hacks, with the added functionality\n"
+                                            +"  \t\t\tof using Quizlet sets. It won second place in the \n"
+                                            +"  \t\t\teducational hack category at CU Hacks.\n\n"
+                                            +"\t\tGithub Repo: https://github.com/avikj/Flappy-Nerd\n\n"
+                                            +"\t\tCollaborators: Gagan Kaushik, Nihal George.\n}", 
+
+                                            className:"jquery-console-message-value"}];
+                        }
+                        return [{msg:"Could not find file '"+arr[1]+"'.", className:"jquery-console-message-value"}]
+                        break;
+                    case "go":
+                        switch(arr[1]){
+                            case "github":
+                                var win = window.open('https://github.com/avikj', '_blank');
+                                if(win){
+                                    //Browser has allowed it to be opened
+                                    win.focus();
+                                }else{
+                                    //Broswer has blocked it
+                                    alert('Please allow popups for this site');
+}
+                                break;
+                        }
+                        break;
+                    default:
+                        return [{msg:"'"+arr[0]+"'is not a recognized command.", className:"jquery-console-message-value"}]
+                        break;
+                }
+               
+           },
+           welcomeMessage:"Hello. You have reached Avik Jain's site. Enter 'help' for a list of commands. (NOTE: Site is currently under construction.)",
+           autofocus:true,
+           animateSroll:true,
+           promptHistory:true,
+           charInsertTrigger:function(keycode,line){
+              // Let you type until you press a-z
+              // Never allow zero.
+              return true;
+           }
+         });
+        });
+    </script>
+      <script type="text/javascript" charset="utf-8" src="js/jquery.tubular.1.0.js"></script> 
+    <style type="text/css" media="screen">
+      html{background-color: #000; overflow: hidden;}
+      div.console1{ word-wrap: break-word; width:100%;height:100%; margin:0px;}
+      /* First console */
+      div.console1 { font-size: 14px }
+      div.console1 div.jquery-console-inner{ 
+            width:100%; 
+            height:95vh; 
+            background:#000;
+            padding:0.5em;
+            overflow:auto 
+        }
+      div.console1 div.jquery-console-prompt-box
+       { color:#fff; font-family:monospace; }
+      div.console1 div.jquery-console-focus span.jquery-console-cursor
+       { background:#fefefe; color:#333; font-weight:bold }
+      div.console1 div.jquery-console-message-error
+       { color:#ef0505; font-family:sans-serif; font-weight:bold;
+         padding:0.1em; }
+      div.console1 div.jquery-console-message-value
+       { color:#4f4; font-family:monospace;
+         padding:0.1em; padding-left: 1vh}
+      div.console1 div.jquery-console-message-type
+       { color:#52666f; font-family:monospace;
+         padding:0.1em; }
+      div.console1 span.jquery-console-prompt-label { font-weight:bold }
+      div.jquery-console-welcome{
+        color: white;
+        font-family: monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>
+      <p>
+        <strong>Please enable JavaScript or upgrade your browser.</strong>
+      </p>
+    </noscript>
+  </body>
+</html>
