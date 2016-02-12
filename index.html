@@ -1,1 +1,53 @@
-Under construction
+<html>
+	<head>
+		<title>Avik Jain</title>
+		<link rel="stylesheet" type="text/css" href="css/animate.css">
+		<link rel="stylesheet" type="text/css" href="css/materialize.min.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+	</head>
+	<body>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="js/materialize.min.js"></script>
+		<script type="text/javascript">
+
+			function b1clicked(){
+
+				var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+
+				$('#content').removeClass('animated bounceInUp');
+				$('#content').addClass('animated bounceOutDown').one(animationEnd, function() {
+					$('#content').remove();
+					$('#contentWrapper').append('<div id="content" class="col s12 m12 animated bounceInUp"><div class="card blue-grey darken-1"><div class="card-content white-text"><span class="card-title">Hello</span><p>asdfasdfasdfasdfasdfasdfasdfasdfsadfasdfasdfasdfasdf<br>asdfasdfasdfasdfasdfasdfasdf</p> </div><div class="card-action"><a href="#">This is a link</a><a href="#">This is a lin</a></div></div></div>');
+		        });
+		        if($('#content').length == 0){
+					
+					$('#contentWrapper').append('<div id="content" class="col s12 m12 animated bounceInUp"><div class="card blue-grey darken-1"><div class="card-content white-text"><span class="card-title">Hello</span><p>asdfasdfasdfasdfasdfasdfasdfasdfsadfasdfasdfasdfasdf<br>asdfasdfasdfasdfasdfasdfasdf</p> </div><div class="card-action"><a href="#">This is a link</a><a href="#">This is a lin</a></div></div></div>');
+				}
+			}
+			$(function(){
+				$.fn.extend({
+				    animateCss: function (animationName) {
+
+				        var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+				        $(this).addClass('animated ' + animationName).one(animationEnd, function() {
+				            $(this).removeClass('animated ' + animationName);
+				        });
+				    }
+				});
+			});
+		</script>
+		<div class="container" id="container">
+			<div class="row">
+				<button id="b1" class="col m3 waves-effect waves-light btn-large  z-depth-3" onclick="b1clicked()">Asdf</button>
+				<button id="b2" class="col m3 waves-effect waves-light btn-large  z-depth-3">Asdf</button>
+				<button id="b3" class="col m3 waves-effect waves-light btn-large  z-depth-3">Asdf</button>
+				<button id="b4" class="col m3 waves-effect waves-light btn-large  z-depth-3">Asdf</button>
+			</div>
+
+			<div id="contentWrapper" class="row">
+				      
+			</div>
+		</div>
+
+	</body>
+</html>
