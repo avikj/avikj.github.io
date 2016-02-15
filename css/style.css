@@ -1,22 +1,40 @@
 *{
 	font-family: futura, sans-serif;
 }
-
+.wrapper{
+    margin-left: auto;
+    margin-right:auto;
+    width: 80%;
+}
 h1{
-    font-size: 4em;
-    padding-left: 6%;
+    font-size: 5em;
     font-weight: 100;
     display: inline-block;
 }
 h2{
-    font-size: 2.7em;
-    padding-left: 8%;
-    font-weight: 200;
+    font-size: 3em;
+    font-weight: 100;
 }
-
+p{
+    font-size: 1.8em;   
+}
 #nameWrapper{
     font-weight: 700;
-    
+}
+
+.big-icon{
+    padding-top: 0vh;
+    padding-right: 3vw;
+    font-size: 3em !important;
+    color: black;
+}
+.icon-devpost{
+    //asdf   
+}
+.centered{
+    position:relative;
+    left:50%;
+    transform:translate(-50%,0);
 }
 
 .typed-cursor{
