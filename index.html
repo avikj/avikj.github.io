@@ -1,48 +1,40 @@
 <html>
 	<head>
 		<title>Avik Jain</title>
-		<link rel="stylesheet" type="text/css" href="css/animate.css">
-		<link rel="stylesheet" type="text/css" href="css/materialize.min.css">
-		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link rel="stylesheet" type="text/css" href="css/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/animate.css">
+        <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"
 	</head>
+	
 	<body>
-		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-		<script type="text/javascript" src="js/materialize.min.js"></script>
-		<script type="text/javascript">
-			var divs = ['<div id="content" class="col s12 m12 animated fadeInUpBig"><div class="card blue-grey darken-1"><div class="card-content white-text"><span class="card-title">Hello</span><p>asdfasdfasdfasdfasdfasdfasdfasdfsadfasdfasdfasdfasdf<br>asdfasdfasdfasdfasdfasdfasdf</p> </div><div class="card-action"><a href="#">This is a link</a><a href="#">This is a lin</a></div></div></div>', '<div id="content" class="col s12 m12 animated fadeInUpBig"><div class="card blue-grey darken-1"><div class="card-content white-text"><span class="card-title">Hello</span><p>alkjhlkjhilukhikhgkjhjk,kjhlkjhlkjh</p> </div><div class="card-action"><a href="#">This is a link</a><a href="#">This is a lin</a></div></div></div>', '<div id="content" class="col s12 m12 animated fadeInUpBig"><div class="card blue-grey darken-1"><div class="card-content white-text"><span class="card-title">Hello</span><p>denutsfdddeznutsdeznutsdeznutsdeeznutesdeeznutsedfeznesduenuendudysndxzdesznuts</p> </div><div class="card-action"><a href="#">This is a link</a><a href="#">This is a lin</a></div></div></div>', '<div id="content" class="col s12 m12 animated fadeInUpBig">asdfasdfasdf</div>'];
-			var lis = [];
-			$(function(){
-
-			});
-
-			function bclicked(index){
-				var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
-
-				$('#content').removeClass('animated fadeInUpBig');
-				$('#content').addClass('animated rollOut').one(animationEnd, function() {
-					$('#content').remove();
-					$('#contentWrapper').append(divs[index]);
-		        });
-		        if($('#content').length == 0){
-					
-					$('#contentWrapper').append(divs[index]);
-				}
-			}
-		</script>
-		<div class="container" id="container">
-			<div class="row">
-				<ul class="tabs">
-					<li class="tab active black-text col m3 white waves-effect waves-teal" onclick="bclicked(0)">Asdf</li>
-					<li class="tab black-text col m3 white waves-effect waves-teal" onclick="bclicked(1)">Asdf</li>
-					<li class="tab black-text col m3 white waves-effect waves-teal" onclick="bclicked(2)">Asdf</li>
-					<li class="tab black-text col m3 white waves-effect waves-teal" onclick="bclicked(3)">Asdf</li>
-				</ul>
-			</div>
-
-			<div id="contentWrapper" class="row">
-				      
-			</div>
-		</div>
-
+		<script type="text/javascript" src="js/semantic.min.js"></script>
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/typed.js"></script>
+        <script type="text/javascript" src="js/lettering.min.js"></script>
+        <script type="text/javascript" src="js/textillate.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+        
+        <br><br>
+        <h1 id="title" class="animated bounceIn">Hi. I'm <strong><span id="nameWrapper"></span><font color="#3883FA">A</font><font color="#EE422E">v</font><font color="#FFBC00">i</font><font color="#2FA851">k</font> <font color="#3883FA">J</font><font color="#EE422E">a</font><font color="#FFBC00">i</font><font color="#2FA851">n</font></span></strong>.</h1>
+        
+        <!--<div class="ui grid">
+            <div class="doubling four column row">
+                <div class="column">
+                    asdf
+                </div>
+                <div class="column">
+                    asdf
+                </div>
+                <div class="column">
+                    asdf
+                </div>
+                <div class="column">
+                    asdf
+                </div>
+                
+            </div>
+        </div>-->
+        <!--<h2><span id="typedHeader"></span></h2>-->
 	</body>
 </html>
