@@ -1,3 +1,7 @@
+html{
+    
+    overflow-x: hidden;
+}
 *{
 	font-family: futura, sans-serif;
 }
@@ -13,10 +17,13 @@ h1{
 }
 h2{
     font-size: 3em;
-    font-weight: 100;
+    font-weight: bold;
     display: inline-block;
 }
-p{
+h3{
+    font-size: 2em;
+}
+.plain-text{
     font-size: 1.8em;   
 }
 #nameWrapper{
