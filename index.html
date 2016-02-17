@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     <title>Avik Jain</title>
@@ -17,26 +18,27 @@
     <script type="text/javascript" src="js/semantic.min.js"></script>
     <script type="text/javascript" src="js/typed.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
-
+    <script type="text/javascript" src="js/wow.min.js"></script>
+    <script> new WOW().init(); </script>
     <br><br>
     <div class="wrapper">
-        <h1 id="title" class="animated bounceInDown">Hi. I'm <strong><span id="nameWrapper"></span><font color="#3883FA">A</font><font color="#EE422E">v</font><font color="#FFBC00">i</font><font color="#2FA851">k</font> <font color="#3883FA">J</font><font color="#EE422E">a</font><font color="#FFBC00">i</font><font color="#2FA851">n</font></span></strong>.</h1>
+        <h1 id="title" class="wow bounceInDown">Hi. I'm <strong><span id="nameWrapper"></span><font class="gBlue">A</font><font class="gRed">v</font><font class="gYellow">i</font><font class="gGreen">k</font> <font class="gBlue">J</font><font class="gRed">a</font><font class="gYellow">i</font><font class="gGreen">n</font></span></strong>.</h1>
         <br>
 
-        <a href="https://www.github.com/avikj"><i class="column big-icon animated bounceInDown fa fa-github "></i></a>
-        <a href="https://www.linkedin.com/in/avikj"><i class="column big-icon animated bounceInDown fa fa-linkedin "></i></a>
-        <a href="http://devpost.com/avikjain"><i class="column big-icon animated bounceInDown fa icon-devpost"></i></a>
-        <div class="ui divider animated rotateIn"></div>
-        <h2 class="animated bounceInUp"><font color="#3883FA">Synopsis</font></h2>
-        <p class="plain-text animated bounceInUp">
+        <a href="https://www.github.com/avikj"><i class="column big-icon wow bounceInDown fa fa-github "></i></a>
+        <a href="https://www.linkedin.com/in/avikj"><i class="column big-icon wow bounceInDown fa fa-linkedin "></i></a>
+        <a href="http://devpost.com/avikjain"><i class="column big-icon wow bounceInDown fa icon-devpost"></i></a>
+        <div class="ui divider wow rotateIn"></div>
+        <h2 class="wow bounceInUp"><font class="gBlue">// About me</font></h2>
+        <p class="plain-text wow bounceInUp">
             I'm a student developer from <strong>Cupertino, CA</strong>. I love both algorithmic problem solving and developing apps. In my free time, I <strong>compete at hackathons</strong> and <strong>teach students how to code</strong>. Continue reading to learn more about my skills, projects, and activities.
         </p>
-        <div class="ui divider animated rotateIn"></div>
-        <h2 class="animated bounceInUp"><font color="#EE422E">Skills</font></h2>
+        <div class="ui divider wow rotateIn"></div>
+        <h2 class="wow bounceInUp"><font class="gRed">// Skills</font></h2>
 
 
-        <div class="ui divided doubling two column grid">
-            <div class="column animated bounceInLeft">
+        <div class="ui stackable divided two column grid">
+            <div class="column wow bounceInLeft">
                 <h3>Languages</h3>
                 <div class="ui styled accordion">
                     <div class="title">
@@ -130,7 +132,7 @@
                     </div>
                 </div>
             </div>
-            <div class="column animated bounceInRight">
+            <div class="column wow bounceInRight">
                 <h3>Platforms</h3>
                 <div class="ui styled accordion">
                     <div class="title">
@@ -179,55 +181,101 @@
             </div>
             
         </div>
-        <!--
-        <h2><font color="#FFBC00">Projects</font></h2>
-        <div class="ui two cards">
-            <div class="card">
-                <span class="mini ui image">
-                    <img src="img/pebbleapp.gif">
-                </span>
-                <span class="image">
-                    <img src="img/pebble_ios.jpg">
-                </span>
+        <div class="ui divider wow rotateIn"></div>
+        <h2><font class="gYellow wow bounceInUp">// Projects</font></h2>
+        <div class="ui three stackable doubling cards">
+            <div class=" card wow bounceInLeft">
+                <div class="image">
+                    <img id="swiftImg" src="img/pebbleapp.png">
+                </div>
                 <div class="content">
-                    <a class="header">Kristy</a>
+                    <h3 >SwiftAssist</h3>
                 <div class="meta">
-                    <span class="date">Joined in 2013</span>
+                    <span class="date">Built at Los Altos Hacks</span>
                 </div>
                 <div class="description">
-                    Kristy is an art director living in New York.
+                    <p>SwiftAssist is an application that revolutionizes health emergency response using crowdsourcing. For example, if someone is having an allergic reaction and they do not have their epinephrine injector (EpiPen), they can press a button on their Pebble smartwatch or iPhone to notify nearby users who can help them. These users recieve an alert on their phones and can view directions to the location of the emergency, along with what type of emergency it is. I built the Pebble smartwatch app using the Pebble.js SDK. </p>
+                    <span><button onclick="window.open('http://devpost.com/software/swiftassist-j6r9s2');" class="ui wow fade button">
+                    	<div class="visible content">Find out More</div>
+						<div class="hidden content">View on Devpost</div>
+                    </button></span>
+                    <span><button onclick="window.open('https://github.com/sohanvichare/SwiftAssist/');" class="ui wow fade button">
+                    	<div class="visible content">View Source Code</div>
+						<div class="hidden content">View on Github</div>
+                    </button></span>
                 </div>
               </div>
               <div class="extra content">
+              	<i class="fa fa-trophy"></i>
                 <a>
-                  <i class="user icon"></i>
-                  22 Friends
+                  Best use of Microsoft Technologies Winner
                 </a>
               </div>
             </div>
-            <div class="card">
+            <div class=" card wow bounceInUp">
                 <div class="image">
-                    <img src="img/flappynerd.gif">
+                    <img id="flappyImg" src="img/flappynerd.png">
                 </div>
                 <div class="content">
-                    <a class="header">Kristy</a>
+                    <h3 >Flappy Nerd</h3>
                 <div class="meta">
-                    <span class="date">Joined in 2013</span>
+                    <span class="date">Built at CU Hacks</span>
                 </div>
                 <div class="description">
-                    Kristy is an art director living in New York.
+                    <p>Flappy Nerd is an immersive Flappy Bird based game that students can use to study. It uses data scraped from Quizlet, to allow users to choose sets that they want to practice with. Unlike Flappy Bird, the pipes in Flappy Nerd have two gaps. The user must maneuver the bird through the gap with the correct answer to a question that is displayed below, to continue playing. I worked on the actual game functionality and graphics. I also played a role in parsing the data retrieved from Quizlet.</p>
+                    <span><button onclick="window.open('https://github.com/avikj/Flappy-Nerd/');" class="ui wow fade button">
+                    	<div class="visible content">View Source Code</div>
+						<div class="hidden content">View on Github</div>
+                    </button></span>
                 </div>
               </div>
               <div class="extra content">
+              	<i class="fa fa-trophy"></i>
                 <a>
-                  <i class="user icon"></i>
-                  22 Friends
+                  2nd Place for Best Educational Hack
                 </a>
               </div>
-            </div>       
+            </div> 
+            <div class=" card wow bounceInRight">
+                <div class="image">
+                    <img id="quickImg" src="img/quickchat.png">
+                </div>
+                <div class="content">
+                    <h3 >QuickChat</h3>
+	                <div class="meta">
+	                    <span class="date">Built in my room.</span>
+	                </div>
+	                <div class="description ">
+	                    <p>QuickChat is a quick online chatting application that allows users to send uniquely generated URL's to their friends and broadcast messages to anyone who's looking at the URL. It was built with the Meteor platform, using Materialize.css for the user interface.</p>
+	                    <span><button onclick="window.open('http://quickchat.meteor.com/');" class="ui wow fade button">
+	                    	<div class="visible content">Try it Out</div>
+							<div class="hidden content">QuickChat</div>
+	                    </button></span>
+	                    <span><button onclick="window.open('https://github.com/avikj/quickchat/');" class="ui wow fade button">
+	                    	<div class="visible content">View Source Code</div>
+							<div class="hidden content">View on Github</div>
+	                    </button></span>
+	                </div>
+	            </div>
+            </div>
         </div>
-        
-        </div>-->
+        <div class="ui divider wow rotateIn"></div>
+        <h2 class=" wow bounceInUp"><font class="gGreen">// Clubs && Activities</font></h2>
+        <h3 class="wow bounceInUp">Programming</h3>
+        	<div class="ui grid three columns  wow bounceInUp">
+        		<div class="column">
+        			<h4>Hackathons</h4>
+        			Hackathons are events in which participants spend 24 hours developing an application or product that can be used in the real world. I've competed in many of them, with the most recent being Los Altos Hacks and HackingEDU. I won prizes at CU Hacks and Los Altos Hacks. You can check out my hackathon projects on <a href="http://devpost.com/avikjain">Devpost</a>.
+        		</div>
+        		<div class="column">
+        			<h4>Algorithmic Contests</h4>
+        			I participate in algorithmic programming competitions such as the USA Computing Olympiad, where participants compete to write efficient code for difficult problems, requiring an in depth knowledge of algorithms and general problem solving skill. I have been a gold division USACO competitor since December 2015. You can check out some of my solutions on <a href="https://github.com/avikj/USACO-Solutions">GitHub</a>.
+        		</div>
+        		<div class="column">
+        			<h4>Etc.</h4>
+        			I program <strong>a lot</strong>. I'm enrolled in AP Computer Science in school, and spend most of my free time coding. You can check out my various projects <a href="https://github.com/avikj">here</a>.
+        		</div>
+        	</div>
     </div>
 
 </body>
