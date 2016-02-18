@@ -60,7 +60,7 @@ h4{
     color: black;
 }
 .icon-devpost{
-    //asdf   
+    transform: translateY(5px);
 }
 .centered{
     position:relative;
