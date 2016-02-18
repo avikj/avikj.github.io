@@ -22,7 +22,7 @@ html{
 }
 
 *{
-	font-family: futura, sans-serif;
+	font-family: 'Roboto', sans-serif;
 }
 .wrapper{
     margin-left: auto;
@@ -47,6 +47,7 @@ h4{
 }
 .plain-text{
     font-size: 1.8em;   
+    font-weight: 500;
 }
 #nameWrapper{
     font-weight: 700;
