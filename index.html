@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Avik Jain</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="apple-touch-icon-57x57.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="apple-touch-icon-114x114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="apple-touch-icon-72x72.png" />
@@ -29,18 +30,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link href="styles.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="css/footer-distributed-with-address-and-phones.css">
 
 </head>
 
 <body>
 
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/jquery.animate-colors.min.js"></script>
-    <script type="text/javascript" src="js/semantic.min.js"></script>
-    <script type="text/javascript" src="js/typed.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
-    <script type="text/javascript" src="js/wow.min.js"></script>
-    <script> new WOW().init(); </script>
     <br><br>
     <div class="wrapper">
         <h1 id="title" class="wow bounceInDown">Hi. I'm <strong><span id="nameWrapper"></span><font class="gBlue">A</font><font class="gRed">v</font><font class="gYellow">i</font><font class="gGreen">k</font> <font class="gBlue">J</font><font class="gRed">a</font><font class="gYellow">i</font><font class="gGreen">n</font></span></strong>.</h1>
@@ -49,13 +44,15 @@
         <a href="https://www.github.com/avikj"><i class="column big-icon wow bounceInDown fa fa-github "></i></a>
         <a href="https://www.linkedin.com/in/avikj"><i class="column big-icon wow bounceInDown fa fa-linkedin "></i></a>
         <a href="http://devpost.com/avikjain"><i class="column big-icon wow bounceInDown fa icon-devpost"></i></a>
+        
+
         <div class="ui divider wow rotateIn"></div>
-        <h2 class="wow bounceInUp"><font class="gBlue">// About me</font></h2>
-        <p class="plain-text wow bounceInUp">
-            I'm a student developer from <strong>Cupertino, CA</strong>. I love both algorithmic problem solving and developing apps. In my free time, I <strong>compete at hackathons</strong> and <strong>teach students how to code</strong>. Continue reading to learn more about my skills, projects, and activities.
+        <h2 id="about-header" class="wow bounceInLeft"><font class="gBlue">// About me</font></h2>
+        <p class="plain-text wow bounceInRight">
+            I'm a student developer from <strong>Cupertino, CA</strong>. I love both algorithmic problem solving and developing apps. In my free time, I <strong>compete at hackathons</strong> and <strong>teach students how to code</strong>. Continue reading to learn more about my skills, projects, and more.
         </p>
         <div class="ui divider wow rotateIn"></div>
-        <h2 class="wow bounceInUp"><font class="gRed">// Skills</font></h2>
+        <h2 id="skills-header" class="wow bounceInLeft"><font class="gRed">// Skills</font></h2>
 
 
         <div class="ui stackable divided two column grid">
@@ -203,7 +200,7 @@
             
         </div>
         <div class="ui divider wow rotateIn"></div>
-        <h2><font class="gYellow wow bounceInUp">// Projects</font></h2>
+        <h2 id="projects-header"><font class="gYellow wow bounceInLeft">// Projects</font></h2>
         <div class="ui three stackable doubling cards">
             <div class=" card wow bounceInLeft">
                 <div class="image">
@@ -233,7 +230,7 @@
                 </a>
               </div>
             </div>
-            <div class=" card wow bounceInUp">
+            <div class=" card wow rotateIn">
                 <div class="image">
                     <img id="flappyImg" src="img/flappynerd.png">
                 </div>
@@ -281,9 +278,9 @@
             </div>
         </div>
         <div class="ui divider wow rotateIn"></div>
-        <h2 class=" wow bounceInUp"><font class="gGreen">// Clubs && Activities</font></h2>
-        <h3 class="wow bounceInUp">Programming</h3>
-    	<div class="ui grid three columns  wow bounceInUp">
+        <h2 id="activities-header" class=" wow bounceInLeft"><font class="gGreen">// Clubs && Activities</font></h2>
+        <h3 class="wow bounceInRight">Programming</h3>
+    	<div class="ui grid three columns  wow bounceInRight">
     		<div class="column">
     			<h4>Hackathons</h4>
     			Hackathons are events in which participants spend 24 hours developing an application or product that can be used in the real world. I've competed in many of them, with the most recent being Los Altos Hacks and HackingEDU. I won prizes at CU Hacks and Los Altos Hacks. You can check out my hackathon projects on <a href="http://devpost.com/avikjain">Devpost</a>.
@@ -298,8 +295,8 @@
     		</div>
     	</div>
 
-    	<h3 class="wow bounceInUp">Teaching</h3>
-    	<div class="ui grid two columns  wow bounceInUp">
+    	<h3 class="wow bounceInLeft">Teaching</h3>
+    	<div class="ui grid two columns  wow bounceInRight">
     		<div class="column">
     			<h4>MathAndCoding</h4>
     			This year I started volunteering for the MathAndCoding organization. Its mission is to spread programming literacy by teaching students how to code at local Bay Area libraries, free of cost. I am currently teaching an introductory Java workshop and will be teaching one for Python in a couple months. You can learn more about the organization or get involved <a href="http://www.mathandcoding.org/">here</a>.
@@ -310,6 +307,64 @@
     		</div>
     	</div>
     </div>
+    <br>
+    <footer class="footer-distributed wow slideInUp">
 
+			<div class="footer-left">
+ 
+				<h3><font class="gBlue">A</font><font class="gRed">v</font><font class="gYellow">i</font><font class="gGreen">k</font> <font class="gBlue">J</font><font class="gRed">a</font><font class="gYellow">i</font><font class="gGreen">n</font></h3>
+
+				<p class="footer-links">
+					<a href="#about-header">About me</a>
+					·
+					<a href="#skills-header">Skills</a>
+					·
+					<a href="#projects-header">Projects</a>
+					·
+					<a href="#activities-header">Activities</a>
+				</p>
+
+				<p class="footer-company-name">Avik Jain &copy; 2016</p>
+			</div>
+
+			<div class="footer-center">
+
+				<div>
+					<i class="fa fa-map-marker"></i>
+					<p><span>Monta Vista High School </span> Cupertino, CA</p>
+				</div>
+
+				<div>
+					<i class="fa fa-envelope"></i>
+					<p><a href="mailto:contact@avikjain.me">contact@avikjain.me</a></p>
+				</div>
+
+			</div>
+
+			<div class="footer-right">
+
+				<p class="footer-company-about">
+					<span>Work</span>
+					I'm open to internships or other work for the summer of 2016. Send me an email if you're interested.
+				</p>
+
+				<div class="footer-icons">
+
+					<a href="http://devpost.com/avikjain"><i class="fa sqicon icon-devpost"></i></a>
+					<a href="https://www.linkedin.com/in/avikj"><i class="fa sqicon fa-linkedin"></i></a>
+					<a href="https://www.github.com/avikj"><i class="fa sqicon fa-github"></i></a>
+
+				</div>
+
+			</div>
+
+		</footer>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.animate-colors.min.js"></script>
+    <script type="text/javascript" src="js/semantic.min.js"></script>
+    <script type="text/javascript" src="js/typed.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/wow.min.js"></script>
+    <script> new WOW().init(); </script>
 </body>
 </html>
