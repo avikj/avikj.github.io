@@ -37,12 +37,12 @@
 
 
       var imgs = [$('#swiftImg'), $('#flappyImg'), $('#quickImg')];
-      var imgSrcs = ['pebbleapp.gif', 'flappynerd.gif', 'quickchat.gif'];
+      var imgSrcs = ['pebbleapp.gif', 'flappynerd.gif', 'fbash.gif'];
 
       var swiftGif = new Image();
 
-          swiftGif.src = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'))+'/img/'+imgSrcs[0];
-          swiftGif.onload = function(){
+      swiftGif.src = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'))+'/img/'+imgSrcs[0];
+      swiftGif.onload = function(){
           imgs[0].attr("src", this.src);   
           console.log('loaded image '+0);
       };
