@@ -1,2 +1,4 @@
+*.scss
+node_modules/
 *~
 *.db
