@@ -1,6 +1,0 @@
-[submodule "apush/apush-notes"]
-	path = apush/apush-notes
-	url = https://github.com/avikj/apush-notes.git
-[submodule "apush-notes"]
-	path = apush-notes
-	url = https://github.com/avikj/apush-notes.git
