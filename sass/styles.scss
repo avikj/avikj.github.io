@@ -111,17 +111,30 @@ header {
 				font-weight: bold;
 			}
 		}
-		&.img-left {
-			img {
-				float: left;
-				padding-right: 2vw;
+		@media (min-width: 601px) {
+			&.img-left {
+				img {
+					float: left;
+					padding-right: 2vw;
+				}
+			}
+			&.img-right {
+				img {
+					float: right;
+					padding-left: 2vw;
+				}
 			}
 		}
-		&.img-right {
+		@media (max-width: 600px) {
 			img {
-				float: right;
-				padding-left: 2vw;
+				width: 100%;
+				height: auto;
+				margin-bottom: 1vw;
 			}
+			h2 {
+				margin-top: 0;
+			}
+			margin-top: 10vh;
 		}
 	}
 }
