@@ -94,6 +94,17 @@ header {
 	.project {
 		min-height: 50vh;
 		h2 {
+			.links {
+				float: right;
+				i {
+					color: white;
+					padding-left: 4vw;
+					transition: color 0.5s ease;
+				}
+				i:hover {
+					color: $red;
+				}
+			}
 			font-size: 2.5em;
 			margin-bottom: 2vh;
 		}
