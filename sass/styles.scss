@@ -57,8 +57,22 @@ header {
   background: white;
   min-height: 50vh;
   margin-top: -10vh;
+  > * {
+  	@media (max-width: 600px) {
+			width: 100%;
+			text-align: center;
+			i {
+				width: 20%;
+				padding-bottom: 2vh;
+			}
+		}
+  }
   @media(max-width: 768px) {
-  	min-height: 90vh;
+  	> div > * {
+  		padding-bottom: 3vh;
+  		padding-top: 3vh;
+  	}
+  	min-height: 95vh;
   	padding: 5vh;
   }
   > div {
@@ -78,15 +92,15 @@ header {
   		color: $gray;
   	}
   }
-  i {
-  	padding-right: 5vw;
-  	padding-top: 2vh;
-  	color: $gray;
-  	transition: color 0.5s ease;
-  }
-  i:hover {
-  	color: $dark-blue;
-  }
+}
+a i {
+	padding-right: 5vw;
+	padding-top: 2vh;
+	color: $gray;
+	transition: color 0.5s ease;
+}
+a i:hover {
+	color: $dark-blue;
 }
 
 #projects {
@@ -184,16 +198,45 @@ header {
 		margin-bottom: 2vh;
 	}
 }
-#awards::after {
-	content: "";
-	background: $dark-blue;
-	z-index: -1;
-	height: 30vh;
-	position: absolute;
-	bottom: -5vh;
-	right: 0;
-	left: 0;
-	-ms-transform: skewY(3deg); /* IE 9 */
-  -webkit-transform: skewY(3deg); /* Safari */
-  transform: skewY(3deg);
+
+footer {
+	> * {
+		@media (max-width: 600px) {
+			width: 100%;
+			text-align: center;
+			i {
+				width: 20%;
+				padding-bottom: 2vh;
+			}
+		}
+	}
+	margin: 0;
+	padding: 5vh;
+	background-color: white;
+	color: $red;
+	h2 {
+		font-size: 2.5em;
+		margin-bottom: 2vh;
+		padding-left: 2vw;
+		padding-write: 2vw;
+	}
+	a {
+		color: $red;
+		text-decoration: none;
+		transition: font-size 0.5s ease;
+	}
+	h2 a:hover {
+		font-size: 1.1em;
+	}
+	p, h3 {
+		color: $gray;
+	}
+	hr {
+		border-top: 1px solid $red;
+	}
+	.right {
+		@media (min-width: 601px) {
+			float: right;
+		}
+	}
 }
