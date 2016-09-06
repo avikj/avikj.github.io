@@ -97,7 +97,7 @@ a i {
 	padding-right: 5vw;
 	padding-top: 2vh;
 	color: $gray;
-	transition: color 0.5s ease;
+	transition: color 0.25s ease;
 }
 a i:hover {
 	color: $dark-blue;
@@ -116,7 +116,7 @@ a i:hover {
 				i {
 					color: white;
 					padding-left: 4vw;
-					transition: color 0.5s ease;
+					transition: color 0.25s ease;
 				}
 				i:hover {
 					color: $red;
@@ -223,10 +223,10 @@ footer {
 	a {
 		color: $red;
 		text-decoration: none;
-		transition: font-size 0.5s ease;
+		transition: color 0.25s ease;
 	}
 	h2 a:hover {
-		font-size: 1.1em;
+		color: $dark-blue;
 	}
 	p, h3 {
 		color: $gray;
