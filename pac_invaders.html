@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAC-INVADERS :: SPACE MAC</title>
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden;
+            cursor: none;
+            user-select: none;
+        }
+        
+        body { 
+            background: #000;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        canvas { 
+            display: block;
+            border: 3px solid #0099FF;
+            box-shadow: 
+                0 0 30px #0099FF,
+                inset 0 0 20px rgba(0, 153, 255, 0.2);
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+        
+        #hud {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+        
+        #score {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            color: #FFFF00;
+            text-shadow: 0 0 10px #FFFF00;
+            letter-spacing: 2px;
+        }
+        
+        #high-score {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: #FF00FF;
+            text-shadow: 0 0 10px #FF00FF;
+            letter-spacing: 2px;
+        }
+        
+        #lives {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            font-size: 28px;
+            color: #FFFF00;
+        }
+        
+        .pac-life {
+            display: inline-block;
+            margin: 0 5px;
+            text-shadow: 0 0 10px #FFFF00;
+        }
+        
+        #power {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 20px;
+            color: #00FFFF;
+            text-shadow: 0 0 15px #00FFFF;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .power-active {
+            opacity: 1 !important;
+            animation: powerPulse 0.5s infinite;
+        }
+        
+        @keyframes powerPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        #wave {
+            position: fixed;
+            top: 60px;
+            left: 20px;
+            font-size: 18px;
+            color: #00FF00;
+            text-shadow: 0 0 10px #00FF00;
+        }
+        
+        #combo {
+            position: fixed;
+            top: 100px;
+            left: 20px;
+            font-size: 20px;
+            color: #FF00FF;
+            text-shadow: 0 0 15px #FF00FF;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .combo-active {
+            opacity: 1 !important;
+            animation: comboFlash 0.3s;
+        }
+        
+        @keyframes comboFlash {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.5) rotate(10deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+        
+        #message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            color: #FFFF00;
+            text-shadow: 
+                0 0 20px #FFFF00,
+                0 0 40px #FFFF00;
+            opacity: 0;
+            pointer-events: none;
+            letter-spacing: 5px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .show-message {
+            animation: messageFlash 2s ease-out;
+        }
+        
+        @keyframes messageFlash {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+        }
+        
+        #controls {
+            position: fixed;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            color: #0099FF;
+            text-shadow: 0 0 10px #0099FF;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border: 2px solid #0099FF;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="hud">
+        <div id="score">SCORE: <span id="score-value">0</span></div>
+        <div id="high-score">HIGH: <span id="high-value">0</span></div>
+        <div id="wave">WAVE: <span id="wave-value">1</span></div>
+        <div id="combo" class="combo-text">COMBO x<span id="combo-value">1</span></div>
+        
+        <div id="lives">
+            <span class="pac-life">⟨⟩</span>
+            <span class="pac-life">⟨⟩</span>
+            <span class="pac-life">⟨⟩</span>
+        </div>
+        
+        <div id="power">POWER MODE!</div>
+        
+        <div id="message"></div>
+        
+        <div id="controls">
+            ARROWS/WASD: MOVE • SPACE: TURBO • COLLECT DOTS • EAT INVADERS
+        </div>
+    </div>
+    
+    <canvas id="gameCanvas"></canvas>
+    
+    <script>
+        // Canvas setup
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const CELL_SIZE = 20;
+        const COLS = 40;
+        const ROWS = 30;
+        canvas.width = COLS * CELL_SIZE;
+        canvas.height = ROWS * CELL_SIZE;
+        
+        // Colors
+        const COLORS = {
+            pacman: '#FFFF00',
+            invaderGreen: '#00FF00',
+            invaderCyan: '#00FFFF',
+            invaderPink: '#FF00FF',
+            invaderRed: '#FF0000',
+            ghostRed: '#FF0000',
+            ghostPink: '#FFB8FF',
+            ghostCyan: '#00FFFF',
+            ghostOrange: '#FFB852',
+            pellet: '#FFB897',
+            powerPellet: '#FFFFFF',
+            wall: '#0033CC',
+            portal: '#FF00FF'
+        };
+        
+        // Game state
+        const game = {
+            score: 0,
+            highScore: localStorage.getItem('pacInvadersHigh') || 0,
+            lives: 3,
+            wave: 1,
+            combo: 1,
+            powerMode: false,
+            powerTimer: 0,
+            time: 0,
+            paused: false,
+            invaderDirection: 1,
+            invaderDropTimer: 0,
+            invaderSpeed: 100,
+            ghostsEaten: 0
+        };
+        
+        // Maze layout (1 = wall, 0 = empty, 2 = pellet, 3 = power pellet)
+        const maze = [];
+        for (let y = 0; y < ROWS; y++) {
+            maze[y] = [];
+            for (let x = 0; x < COLS; x++) {
+                // Create maze pattern
+                if (y === 0 || y === ROWS - 1 || x === 0 || x === COLS - 1) {
+                    maze[y][x] = 1; // Outer walls
+                } else if ((x % 8 === 0 || y % 6 === 0) && Math.random() > 0.3) {
+                    maze[y][x] = 1; // Inner walls
+                } else if (Math.random() > 0.7) {
+                    maze[y][x] = 2; // Pellets
+                } else {
+                    maze[y][x] = 0; // Empty
+                }
+                
+                // Add power pellets in corners
+                if ((x === 2 && y === 2) || (x === COLS - 3 && y === 2) ||
+                    (x === 2 && y === ROWS - 3) || (x === COLS - 3 && y === ROWS - 3)) {
+                    maze[y][x] = 3;
+                }
+            }
+        }
+        
+        // Clear starting area
+        for (let y = ROWS - 5; y < ROWS - 1; y++) {
+            for (let x = COLS/2 - 3; x < COLS/2 + 3; x++) {
+                if (maze[y] && x > 0 && x < COLS - 1) {
+                    maze[y][x] = 0;
+                }
+            }
+        }
+        
+        // Pac-Man
+        const pacman = {
+            x: COLS / 2,
+            y: ROWS - 3,
+            vx: 0,
+            vy: 0,
+            angle: 0,
+            mouthOpen: 0,
+            targetX: COLS / 2,
+            targetY: ROWS - 3,
+            moving: false,
+            turbo: false
+        };
+        
+        // Space Invader class
+        class SpaceInvader {
+            constructor(col, row, type) {
+                this.col = col;
+                this.row = row;
+                this.x = col * CELL_SIZE * 1.5 + 100;
+                this.y = row * CELL_SIZE + 50;
+                this.type = type; // 0, 1, 2 for different types
+                this.alive = true;
+                this.animFrame = 0;
+                this.color = [COLORS.invaderGreen, COLORS.invaderCyan, COLORS.invaderPink][type];
+                this.points = [10, 20, 30][type];
+                this.shootTimer = Math.random() * 200;
+            }
+            
+            update() {
+                // Animate
+                this.animFrame = Math.floor(game.time / 10) % 2;
+                
+                // Move with formation
+                this.x += game.invaderDirection * 0.5;
+                
+                // Shoot occasionally
+                this.shootTimer--;
+                if (this.shootTimer <= 0 && this.alive) {
+                    this.shoot();
+                    this.shootTimer = 200 + Math.random() * 100;
+                }
+            }
+            
+            shoot() {
+                bullets.push({
+                    x: this.x,
+                    y: this.y + CELL_SIZE,
+                    vy: 3,
+                    color: this.color
+                });
+            }
+            
+            draw() {
+                if (!this.alive) return;
+                
+                ctx.fillStyle = game.powerMode ? COLORS.ghostCyan : this.color;
+                ctx.strokeStyle = game.powerMode ? COLORS.ghostRed : '#FFFFFF';
+                ctx.lineWidth = 1;
+                
+                // Draw invader shape (classic style)
+                const x = this.x;
+                const y = this.y;
+                const s = CELL_SIZE * 0.8;
+                
+                // Different shapes for different types
+                if (this.type === 0) {
+                    // Squid type
+                    const shape = this.animFrame === 0 ? 
+                        [0,1,1,1,1,1,1,0,
+                         1,1,0,1,1,0,1,1,
+                         1,1,1,1,1,1,1,1,
+                         1,0,1,1,1,1,0,1,
+                         1,0,1,0,0,1,0,1] :
+                        [0,1,1,1,1,1,1,0,
+                         1,1,0,1,1,0,1,1,
+                         1,1,1,1,1,1,1,1,
+                         0,1,0,1,1,0,1,0,
+                         1,0,1,0,0,1,0,1];
+                    
+                    this.drawPixelShape(x, y, shape, 8, 5, s/8);
+                } else if (this.type === 1) {
+                    // Crab type
+                    const shape = this.animFrame === 0 ?
+                        [0,0,1,0,0,0,1,0,0,
+                         0,0,0,1,0,1,0,0,0,
+                         0,0,1,1,1,1,1,0,0,
+                         0,1,1,0,1,0,1,1,0,
+                         1,1,1,1,1,1,1,1,1,
+                         1,0,1,1,1,1,1,0,1] :
+                        [0,0,1,0,0,0,1,0,0,
+                         1,0,0,1,0,1,0,0,1,
+                         1,0,1,1,1,1,1,0,1,
+                         1,1,1,0,1,0,1,1,1,
+                         1,1,1,1,1,1,1,1,1,
+                         0,1,0,0,0,0,0,1,0];
+                    
+                    this.drawPixelShape(x, y, shape, 9, 6, s/9);
+                } else {
+                    // Octopus type
+                    const shape = this.animFrame === 0 ?
+                        [0,0,0,1,1,0,0,0,
+                         0,0,1,1,1,1,0,0,
+                         0,1,1,1,1,1,1,0,
+                         1,1,0,1,1,0,1,1,
+                         1,1,1,1,1,1,1,1,
+                         0,1,0,1,1,0,1,0] :
+                        [0,0,0,1,1,0,0,0,
+                         0,0,1,1,1,1,0,0,
+                         0,1,1,1,1,1,1,0,
+                         1,1,0,1,1,0,1,1,
+                         1,1,1,1,1,1,1,1,
+                         1,0,1,0,0,1,0,1];
+                    
+                    this.drawPixelShape(x, y, shape, 8, 6, s/8);
+                }
+                
+                // Power mode scared face
+                if (game.powerMode) {
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.fillRect(x - 2, y, 2, 2);
+                    ctx.fillRect(x + 2, y, 2, 2);
+                    ctx.fillRect(x - 3, y + 5, 6, 1);
+                }
+            }
+            
+            drawPixelShape(x, y, shape, width, height, pixelSize) {
+                for (let i = 0; i < shape.length; i++) {
+                    if (shape[i] === 1) {
+                        const px = (i % width) * pixelSize;
+                        const py = Math.floor(i / width) * pixelSize;
+                        ctx.fillRect(x + px - width * pixelSize/2, y + py - height * pixelSize/2, pixelSize, pixelSize);
+                    }
+                }
+            }
+        }
+        
+        // Ghost class (invader-ghost hybrid)
+        class Ghost {
+            constructor(color, startX, startY) {
+                this.x = startX;
+                this.y = startY;
+                this.color = color;
+                this.vx = 0;
+                this.vy = 0;
+                this.targetX = startX;
+                this.targetY = startY;
+                this.scared = false;
+                this.dead = false;
+                this.animFrame = 0;
+            }
+            
+            update() {
+                this.animFrame = Math.floor(game.time / 10) % 2;
+                
+                if (this.dead) {
+                    // Return to start
+                    this.x += (COLS/2 - this.x) * 0.1;
+                    this.y += (5 - this.y) * 0.1;
+                    if (Math.abs(this.x - COLS/2) < 1 && Math.abs(this.y - 5) < 1) {
+                        this.dead = false;
+                    }
+                    return;
+                }
+                
+                // AI movement
+                if (Math.random() < 0.1) {
+                    const dirs = [
+                        {x: 0, y: -1}, {x: 1, y: 0}, 
+                        {x: 0, y: 1}, {x: -1, y: 0}
+                    ];
+                    
+                    const validDirs = dirs.filter(d => {
+                        const nx = Math.floor(this.x + d.x);
+                        const ny = Math.floor(this.y + d.y);
+                        return nx >= 0 && nx < COLS && ny >= 0 && ny < ROWS && maze[ny][nx] !== 1;
+                    });
+                    
+                    if (validDirs.length > 0) {
+                        const dir = validDirs[Math.floor(Math.random() * validDirs.length)];
+                        if (this.scared) {
+                            // Run away from Pac-Man
+                            this.vx = -Math.sign(pacman.x - this.x) * 0.05;
+                            this.vy = -Math.sign(pacman.y - this.y) * 0.05;
+                        } else {
+                            // Chase Pac-Man
+                            this.vx = dir.x * 0.1;
+                            this.vy = dir.y * 0.1;
+                        }
+                    }
+                }
+                
+                // Move
+                const nextX = this.x + this.vx;
+                const nextY = this.y + this.vy;
+                
+                if (maze[Math.floor(nextY)] && maze[Math.floor(nextY)][Math.floor(nextX)] !== 1) {
+                    this.x = nextX;
+                    this.y = nextY;
+                }
+                
+                // Check Pac-Man collision
+                const dist = Math.abs(this.x - pacman.x) + Math.abs(this.y - pacman.y);
+                if (dist < 1) {
+                    if (game.powerMode && !this.dead) {
+                        // Ghost eaten
+                        this.dead = true;
+                        game.ghostsEaten++;
+                        game.score += 200 * Math.pow(2, game.ghostsEaten);
+                        showMessage(`${200 * Math.pow(2, game.ghostsEaten)}`);
+                    } else if (!this.dead && !game.powerMode) {
+                        // Pac-Man dies
+                        loseLife();
+                    }
+                }
+            }
+            
+            draw() {
+                const x = this.x * CELL_SIZE;
+                const y = this.y * CELL_SIZE;
+                const s = CELL_SIZE * 0.8;
+                
+                if (this.dead) {
+                    // Draw eyes returning home
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.beginPath();
+                    ctx.arc(x - 3, y, 3, 0, Math.PI * 2);
+                    ctx.arc(x + 3, y, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = '#0000FF';
+                    ctx.beginPath();
+                    ctx.arc(x - 3, y, 1, 0, Math.PI * 2);
+                    ctx.arc(x + 3, y, 1, 0, Math.PI * 2);
+                    ctx.fill();
+                    return;
+                }
+                
+                ctx.fillStyle = game.powerMode ? '#0000FF' : this.color;
+                
+                // Ghost body
+                ctx.beginPath();
+                ctx.arc(x, y - s/4, s/2, Math.PI, 0, false);
+                ctx.lineTo(x + s/2, y + s/4);
+                
+                // Wavy bottom
+                for (let i = 3; i >= -3; i--) {
+                    const wx = x + (i * s/6);
+                    const wy = y + s/4 + Math.sin(game.time * 0.1 + i) * 2;
+                    ctx.lineTo(wx, wy);
+                }
+                
+                ctx.closePath();
+                ctx.fill();
+                
+                // Eyes
+                ctx.fillStyle = '#FFFFFF';
+                ctx.beginPath();
+                ctx.arc(x - 4, y - 4, 3, 0, Math.PI * 2);
+                ctx.arc(x + 4, y - 4, 3, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Pupils (look at Pac-Man)
+                const dx = pacman.x - this.x;
+                const dy = pacman.y - this.y;
+                const angle = Math.atan2(dy, dx);
+                
+                ctx.fillStyle = game.powerMode ? '#FFFFFF' : '#0000FF';
+                ctx.beginPath();
+                ctx.arc(x - 4 + Math.cos(angle) * 1.5, y - 4 + Math.sin(angle) * 1.5, 1.5, 0, Math.PI * 2);
+                ctx.arc(x + 4 + Math.cos(angle) * 1.5, y - 4 + Math.sin(angle) * 1.5, 1.5, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Scared mouth
+                if (game.powerMode) {
+                    ctx.strokeStyle = '#FFFFFF';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(x - 6, y + 4);
+                    for (let i = -6; i <= 6; i++) {
+                        ctx.lineTo(x + i, y + 4 + (i % 2) * 2);
+                    }
+                    ctx.stroke();
+                }
+            }
+        }
+        
+        // Game objects
+        let invaders = [];
+        let ghosts = [];
+        let bullets = [];
+        let particles = [];
+        let pelletCount = 0;
+        
+        // Initialize invaders
+        function spawnInvaders() {
+            invaders = [];
+            for (let row = 0; row < 5; row++) {
+                for (let col = 0; col < 11; col++) {
+                    invaders.push(new SpaceInvader(col, row, Math.floor(row / 2)));
+                }
+            }
+        }
+        
+        // Initialize ghosts
+        function spawnGhosts() {
+            ghosts = [
+                new Ghost(COLORS.ghostRed, COLS/2, 5),
+                new Ghost(COLORS.ghostPink, COLS/2 - 2, 5),
+                new Ghost(COLORS.ghostCyan, COLS/2 + 2, 5),
+                new Ghost(COLORS.ghostOrange, COLS/2, 7)
+            ];
+        }
+        
+        // Particle effect
+        function createParticles(x, y, color, count = 10) {
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: (Math.random() - 0.5) * 5,
+                    vy: (Math.random() - 0.5) * 5,
+                    life: 1,
+                    color: color
+                });
+            }
+        }
+        
+        // Show message
+        function showMessage(text) {
+            const msg = document.getElementById('message');
+            msg.textContent = text;
+            msg.classList.add('show-message');
+            setTimeout(() => msg.classList.remove('show-message'), 2000);
+        }
+        
+        // Lose life
+        function loseLife() {
+            game.lives--;
+            pacman.x = COLS / 2;
+            pacman.y = ROWS - 3;
+            pacman.vx = 0;
+            pacman.vy = 0;
+            
+            updateLivesDisplay();
+            
+            if (game.lives <= 0) {
+                gameOver();
+            } else {
+                showMessage('LIFE LOST!');
+            }
+        }
+        
+        // Game over
+        function gameOver() {
+            showMessage('GAME OVER');
+            if (game.score > game.highScore) {
+                game.highScore = game.score;
+                localStorage.setItem('pacInvadersHigh', game.highScore);
+            }
+            setTimeout(() => {
+                game.score = 0;
+                game.lives = 3;
+                game.wave = 1;
+                initGame();
+            }, 3000);
+        }
+        
+        // Update lives display
+        function updateLivesDisplay() {
+            const livesEl = document.getElementById('lives');
+            livesEl.innerHTML = '';
+            for (let i = 0; i < game.lives; i++) {
+                livesEl.innerHTML += '<span class="pac-life">⟨⟩</span>';
+            }
+        }
+        
+        // Draw Pac-Man
+        function drawPacMan() {
+            const x = pacman.x * CELL_SIZE;
+            const y = pacman.y * CELL_SIZE;
+            const radius = CELL_SIZE * 0.4;
+            
+            ctx.fillStyle = game.powerMode ? '#FFB8FF' : COLORS.pacman;
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 1;
+            
+            // Animate mouth
+            pacman.mouthOpen = 0.2 + Math.abs(Math.sin(game.time * 0.2)) * 0.3;
+            
+            // Draw Pac-Man
+            ctx.beginPath();
+            ctx.arc(x, y, radius, pacman.angle + pacman.mouthOpen, pacman.angle + Math.PI * 2 - pacman.mouthOpen);
+            ctx.lineTo(x, y);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+            
+            // Draw eye
+            const eyeX = x + Math.cos(pacman.angle - 0.5) * radius * 0.5;
+            const eyeY = y + Math.sin(pacman.angle - 0.5) * radius * 0.3;
+            ctx.fillStyle = '#000';
+            ctx.beginPath();
+            ctx.arc(eyeX, eyeY - 3, 2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        
+        // Draw maze
+        function drawMaze() {
+            // Draw walls
+            ctx.fillStyle = COLORS.wall;
+            ctx.strokeStyle = '#0066FF';
+            ctx.lineWidth = 1;
+            
+            for (let y = 0; y < ROWS; y++) {
+                for (let x = 0; x < COLS; x++) {
+                    if (maze[y][x] === 1) {
+                        ctx.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+                        ctx.strokeRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+                    }
+                }
+            }
+            
+            // Draw pellets
+            pelletCount = 0;
+            for (let y = 0; y < ROWS; y++) {
+                for (let x = 0; x < COLS; x++) {
+                    if (maze[y][x] === 2) {
+                        // Regular pellet
+                        ctx.fillStyle = COLORS.pellet;
+                        ctx.beginPath();
+                        ctx.arc(x * CELL_SIZE + CELL_SIZE/2, y * CELL_SIZE + CELL_SIZE/2, 2, 0, Math.PI * 2);
+                        ctx.fill();
+                        pelletCount++;
+                    } else if (maze[y][x] === 3) {
+                        // Power pellet
+                        ctx.fillStyle = COLORS.powerPellet;
+                        ctx.shadowColor = COLORS.powerPellet;
+                        ctx.shadowBlur = 10 + Math.sin(game.time * 0.1) * 5;
+                        ctx.beginPath();
+                        ctx.arc(x * CELL_SIZE + CELL_SIZE/2, y * CELL_SIZE + CELL_SIZE/2, 6, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.shadowBlur = 0;
+                        pelletCount++;
+                    }
+                }
+            }
+        }
+        
+        // Input handling
+        const keys = {};
+        
+        document.addEventListener('keydown', (e) => {
+            keys[e.key.toLowerCase()] = true;
+            
+            // Set Pac-Man direction
+            if (e.key === 'ArrowUp' || e.key === 'w') {
+                pacman.vy = -0.2;
+                pacman.vx = 0;
+                pacman.angle = -Math.PI / 2;
+            } else if (e.key === 'ArrowDown' || e.key === 's') {
+                pacman.vy = 0.2;
+                pacman.vx = 0;
+                pacman.angle = Math.PI / 2;
+            } else if (e.key === 'ArrowLeft' || e.key === 'a') {
+                pacman.vx = -0.2;
+                pacman.vy = 0;
+                pacman.angle = Math.PI;
+            } else if (e.key === 'ArrowRight' || e.key === 'd') {
+                pacman.vx = 0.2;
+                pacman.vy = 0;
+                pacman.angle = 0;
+            }
+            
+            if (e.key === ' ') {
+                pacman.turbo = true;
+            }
+        });
+        
+        document.addEventListener('keyup', (e) => {
+            keys[e.key.toLowerCase()] = false;
+            
+            if (e.key === ' ') {
+                pacman.turbo = false;
+            }
+        });
+        
+        // Update Pac-Man
+        function updatePacMan() {
+            const speed = pacman.turbo ? 2 : 1;
+            const nextX = pacman.x + pacman.vx * speed;
+            const nextY = pacman.y + pacman.vy * speed;
+            
+            // Check wall collision
+            const gridX = Math.floor(nextX);
+            const gridY = Math.floor(nextY);
+            
+            if (gridX >= 0 && gridX < COLS && gridY >= 0 && gridY < ROWS) {
+                if (maze[gridY][gridX] !== 1) {
+                    pacman.x = nextX;
+                    pacman.y = nextY;
+                    
+                    // Eat pellets
+                    if (maze[gridY][gridX] === 2) {
+                        maze[gridY][gridX] = 0;
+                        game.score += 10;
+                        createParticles(gridX * CELL_SIZE, gridY * CELL_SIZE, COLORS.pellet, 5);
+                    } else if (maze[gridY][gridX] === 3) {
+                        // Power pellet
+                        maze[gridY][gridX] = 0;
+                        game.score += 50;
+                        game.powerMode = true;
+                        game.powerTimer = 300;
+                        game.ghostsEaten = 0;
+                        document.getElementById('power').classList.add('power-active');
+                        createParticles(gridX * CELL_SIZE, gridY * CELL_SIZE, COLORS.powerPellet, 20);
+                        
+                        ghosts.forEach(ghost => ghost.scared = true);
+                    }
+                }
+            }
+            
+            // Wrap around edges
+            if (pacman.x < 0) pacman.x = COLS - 1;
+            if (pacman.x >= COLS) pacman.x = 0;
+            
+            // Check invader collision
+            invaders.forEach(invader => {
+                if (!invader.alive) return;
+                
+                const dist = Math.abs(invader.x - pacman.x * CELL_SIZE) + 
+                           Math.abs(invader.y - pacman.y * CELL_SIZE);
+                
+                if (dist < CELL_SIZE) {
+                    if (game.powerMode) {
+                        // Eat invader
+                        invader.alive = false;
+                        game.score += invader.points * 10;
+                        game.combo++;
+                        createParticles(invader.x, invader.y, invader.color, 15);
+                        showCombo();
+                    } else {
+                        // Take damage
+                        loseLife();
+                    }
+                }
+            });
+        }
+        
+        // Update invaders
+        function updateInvaders() {
+            let hitEdge = false;
+            
+            invaders.forEach(invader => {
+                invader.update();
+                
+                if (invader.x <= 20 || invader.x >= canvas.width - 20) {
+                    hitEdge = true;
+                }
+            });
+            
+            if (hitEdge) {
+                game.invaderDirection *= -1;
+                invaders.forEach(invader => {
+                    invader.y += CELL_SIZE;
+                });
+            }
+            
+            // Drop timer
+            game.invaderDropTimer++;
+            if (game.invaderDropTimer > game.invaderSpeed) {
+                game.invaderDropTimer = 0;
+                invaders.forEach(invader => {
+                    invader.y += 2;
+                    
+                    // Check if reached bottom
+                    if (invader.y > canvas.height - 100 && invader.alive) {
+                        loseLife();
+                    }
+                });
+            }
+        }
+        
+        // Update bullets
+        function updateBullets() {
+            bullets = bullets.filter(bullet => {
+                bullet.y += bullet.vy;
+                
+                // Check Pac-Man collision
+                const dist = Math.abs(bullet.x - pacman.x * CELL_SIZE) + 
+                           Math.abs(bullet.y - pacman.y * CELL_SIZE);
+                
+                if (dist < CELL_SIZE && !game.powerMode) {
+                    loseLife();
+                    return false;
+                }
+                
+                return bullet.y < canvas.height;
+            });
+        }
+        
+        // Show combo
+        function showCombo() {
+            const comboEl = document.getElementById('combo');
+            comboEl.classList.add('combo-active');
+            document.getElementById('combo-value').textContent = game.combo;
+            
+            setTimeout(() => {
+                comboEl.classList.remove('combo-active');
+            }, 1000);
+        }
+        
+        // Update HUD
+        function updateHUD() {
+            document.getElementById('score-value').textContent = game.score;
+            document.getElementById('high-value').textContent = game.highScore;
+            document.getElementById('wave-value').textContent = game.wave;
+            
+            // Power mode timer
+            if (game.powerMode) {
+                game.powerTimer--;
+                if (game.powerTimer <= 0) {
+                    game.powerMode = false;
+                    document.getElementById('power').classList.remove('power-active');
+                    ghosts.forEach(ghost => ghost.scared = false);
+                }
+            }
+        }
+        
+        // Check wave complete
+        function checkWaveComplete() {
+            if (invaders.every(inv => !inv.alive) || pelletCount === 0) {
+                game.wave++;
+                game.combo = 1;
+                game.invaderSpeed = Math.max(30, 100 - game.wave * 10);
+                
+                // Respawn everything
+                spawnInvaders();
+                
+                // Regenerate some pellets
+                for (let y = 1; y < ROWS - 1; y++) {
+                    for (let x = 1; x < COLS - 1; x++) {
+                        if (maze[y][x] === 0 && Math.random() > 0.8) {
+                            maze[y][x] = 2;
+                        }
+                    }
+                }
+                
+                showMessage(`WAVE ${game.wave}`);
+            }
+        }
+        
+        // Initialize game
+        function initGame() {
+            spawnInvaders();
+            spawnGhosts();
+            updateLivesDisplay();
+            showMessage('PAC-INVADERS!');
+        }
+        
+        // Game loop
+        function gameLoop() {
+            game.time++;
+            
+            // Clear canvas
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw game elements
+            drawMaze();
+            
+            // Update and draw bullets
+            updateBullets();
+            bullets.forEach(bullet => {
+                ctx.fillStyle = bullet.color;
+                ctx.fillRect(bullet.x - 2, bullet.y, 4, 8);
+            });
+            
+            // Update and draw invaders
+            updateInvaders();
+            invaders.forEach(invader => invader.draw());
+            
+            // Update and draw ghosts
+            ghosts.forEach(ghost => {
+                ghost.update();
+                ghost.draw();
+            });
+            
+            // Update and draw Pac-Man
+            updatePacMan();
+            drawPacMan();
+            
+            // Update and draw particles
+            particles = particles.filter(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vx *= 0.95;
+                p.vy *= 0.95;
+                p.life -= 0.02;
+                
+                if (p.life > 0) {
+                    ctx.globalAlpha = p.life;
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(p.x, p.y, 3, 3);
+                    return true;
+                }
+                return false;
+            });
+            ctx.globalAlpha = 1;
+            
+            // Update game state
+            updateHUD();
+            checkWaveComplete();
+            
+            // Combo timeout
+            if (game.time % 120 === 0 && game.combo > 1) {
+                game.combo = 1;
+            }
+            
+            requestAnimationFrame(gameLoop);
+        }
+        
+        // Start game
+        initGame();
+        gameLoop();
+    </script>
+</body>
+</html>
